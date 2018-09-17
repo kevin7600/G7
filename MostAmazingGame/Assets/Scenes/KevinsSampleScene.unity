@@ -328,7 +328,7 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 345758018}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1047,6 +1047,21 @@ Prefab:
     - target: {fileID: 4730462604680484, guid: 795b9469feafba642882415a670cb39d, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 50453657205977288, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_BodyType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 50453657205977288, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 66148903564922562, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_GeometryType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 795b9469feafba642882415a670cb39d, type: 2}
