@@ -153,6 +153,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.NoCompany.MostAmazingGame
     Standalone: com.Company.ProductName
+    iOS: com.g7.tank
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
