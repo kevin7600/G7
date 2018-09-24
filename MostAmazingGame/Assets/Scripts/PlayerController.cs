@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour{
 	    if (shootButton.Pressed&& !shootButton.fired)
         {
             Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
-            GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
+            Instantiate(bullet, gunPosition, transform.rotation);
             shootButton.fired = true;
         }
         else if (!shootButton.Pressed && shootButton.fired)
