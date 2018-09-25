@@ -5,35 +5,35 @@ using UnityEngine;
 public class TouchScript : MonoBehaviour {
     public float speed = 0.3f;
     // Update is called once per frame
-    bool isTouching = false;
+    int fingerTouching=-1;
 
     void Update()
     {
 
-        if (Input.touchCount > 1)
-            return;
-        if (Input.touchCount == 1)
+        if (Input.touchCount > 0)
         {
-            if (Input.touches[0].phase == TouchPhase.Began)
+            for (int i = 0; i < Input.touchCount; i++)
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+                Touch curTouch = Input.GetTouch(i);
+                Ray ray = Camera.main.ScreenPointToRay(curTouch.position);
                 RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-                if (hit)
+                if (hit && hit.collider.gameObject.name == gameObject.name)
                 {
-                    if (hit.collider.gameObject.name == gameObject.name)
-                        isTouching = true;
-                }
-            }
-            if (isTouching && (Input.touches[0].phase == TouchPhase.Moved ||
-                               Input.touches[0].phase == TouchPhase.Stationary))
-            {
-                Vector2 touchDeltaPosition = Input.touches[0].deltaPosition;
-                transform.Translate(touchDeltaPosition.x * speed * Time.deltaTime,
-                                    touchDeltaPosition.y * speed * Time.deltaTime, 0);
-            }
-            if (isTouching && Input.touches[0].phase == TouchPhase.Ended)
-                isTouching = false;
-        }
+                    fingerTouching = curTouch.fingerId;
 
+                }
+                if (fingerTouching==curTouch.fingerId){
+                    Vector2 touchDeltaPosition = curTouch.deltaPosition * .013f;
+                    transform.Translate(touchDeltaPosition);
+                }
+                if (curTouch.fingerId==fingerTouching&&curTouch.phase==TouchPhase.Ended){//detect end of touch
+                    fingerTouching = -1;
+                }
+                //if (curTouch.phase == TouchPhase.Began)
+                //{
+
+                //}
+            }
+        }
     }
 }
