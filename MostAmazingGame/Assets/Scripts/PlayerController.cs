@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour{
 
     public float moveSpeed = 1f;
     public float currentAngle;
+    public float bulletTTL = 5.0f;
 
     private Joystick joystick;
     private ShootButton shootButton;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour{
         {
             Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
             GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
+           
+            Destroy(myBullet, bulletTTL);
             shootButton.fired = true;
         }
         else if (!shootButton.Pressed && shootButton.fired)
