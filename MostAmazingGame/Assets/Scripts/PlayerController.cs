@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.EventSystems;
-public class PlayerController : MonoBehaviour{
+public class PlayerController : NetworkBehaviour{
 
     public float moveSpeed = 1f;
     public float currentAngle;
@@ -18,11 +19,20 @@ public class PlayerController : MonoBehaviour{
         shootButton = FindObjectOfType<ShootButton>();
         currentAngle = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	    if (shootButton.Pressed&& !shootButton.fired)
+    public override void OnStartLocalPlayer()
+    {
+        GetComponent<MeshRenderer>().material.color = Color.blue;
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if(!isLocalPlayer)
+        {
+            return;
+        }
+
+        if (shootButton.Pressed&& !shootButton.fired)
         {
             Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
             GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
@@ -37,6 +47,11 @@ public class PlayerController : MonoBehaviour{
 	}
     void FixedUpdate()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         //float moveHorizontal = Input.GetAxis("Horizontal");
         //float moveVertical = Input.GetAxis("Vertical");
         //Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0);
