@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 
 public class ShootButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
-    public bool Pressed;
-    public bool fired;
+    public bool Pressed=false;
+    public bool fired=false;
     public void OnPointerUp(PointerEventData eventData)
     {
         Pressed = false;

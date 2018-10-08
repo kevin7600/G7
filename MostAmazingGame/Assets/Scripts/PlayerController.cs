@@ -34,11 +34,9 @@ public class PlayerController : NetworkBehaviour{
 
         if (shootButton.Pressed&& !shootButton.fired)
         {
-            Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
-            GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
-           
-            Destroy(myBullet, bulletTTL);
+            CmdFire();
             shootButton.fired = true;
+
         }
         else if (!shootButton.Pressed && shootButton.fired)
         {
@@ -90,4 +88,13 @@ public class PlayerController : NetworkBehaviour{
         this.transform.position += movement;
     }
 
+    [Command]
+    void CmdFire()
+    {
+        Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
+        GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
+        NetworkServer.Spawn(myBullet);
+
+        Destroy(myBullet, bulletTTL);
+    }
 }
