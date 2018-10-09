@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.EventSystems;
+using System;
+
 public class PlayerController : NetworkBehaviour{
+    public Color[] array = {Color.yellow, Color.grey, Color.red, Color.green };
 
     public float moveSpeed = 1f;
     public float currentAngle;
@@ -14,19 +17,34 @@ public class PlayerController : NetworkBehaviour{
 
     public GameObject bullet;
 	// Use this for initialization
-	void Start () {
-        joystick = FindObjectOfType<Joystick>();
-        shootButton = FindObjectOfType<ShootButton>();
-        currentAngle = 0;
-	}
+	//void Start () {
+    //    joystick = FindObjectOfType<Joystick>();
+    //    shootButton = FindObjectOfType<ShootButton>();
+    //    currentAngle = 0;
+    //}
 
     public override void OnStartLocalPlayer()
     {
-        GetComponent<MeshRenderer>().material.color = Color.blue;
+        if (isLocalPlayer) {
+
+        }
+        print("Here!");
+        joystick = FindObjectOfType<Joystick>();
+        shootButton = FindObjectOfType<ShootButton>();
+        currentAngle = 0;
+        SpriteRenderer x = GetComponent<SpriteRenderer>();
+        if (x == null){
+            print("error didn't find the sprite component");
+        }
+        print(array[0].ToString());
+        //x.material.color = array[(int.Parse(netId.ToString()) - 1)%array.Length];
+        x.material.color = Color.blue;
     }
+
 
     // Update is called once per frame
     void Update () {
+        //print("Id: "+netId);
         if(!isLocalPlayer)
         {
             return;
@@ -59,7 +77,7 @@ public class PlayerController : NetworkBehaviour{
         Vector3 movement = new Vector3(joystick.Horizontal, joystick.Vertical, 0);
 
         float angleDeg;
-        if (joystick.Horizontal == 0&& joystick.Vertical>0)
+        if (joystick.Horizontal == 0 && joystick.Vertical>0)
         {
             angleDeg = 90;
         }
@@ -89,5 +107,4 @@ public class PlayerController : NetworkBehaviour{
         movement *= moveSpeed;
         this.transform.position += movement;
     }
-
 }
