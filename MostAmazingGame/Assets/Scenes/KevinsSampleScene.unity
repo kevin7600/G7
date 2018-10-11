@@ -331,7 +331,8 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 1291127619573162, guid: 82685cedc4b7d754ebbb54904bf06adc, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -374,7 +375,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -16934,7 +16935,7 @@ Prefab:
     - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
         type: 2}
       propertyPath: m_TileColorArray.Array.data[1].m_RefCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 66148903564922562, guid: 795b9469feafba642882415a670cb39d,
         type: 2}
@@ -19448,6 +19449,51 @@ Prefab:
         type: 2}
       propertyPath: m_CompositePaths.m_Paths.Array.data[4].Array.data[5].y
       value: -0.8508438
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_Tiles.Array.data[0].second.m_TileColorIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[1].m_Data.r
+      value: 1.46032e-40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[1].m_Data.g
+      value: 1.46032e-40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[1].m_Data.b
+      value: 1.46032e-40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[1].m_Data.a
+      value: 1.46032e-40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[2].m_RefCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[2].m_Data.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[2].m_Data.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195094281049914510, guid: 795b9469feafba642882415a670cb39d,
+        type: 2}
+      propertyPath: m_TileColorArray.Array.data[2].m_Data.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 795b9469feafba642882415a670cb39d, type: 2}

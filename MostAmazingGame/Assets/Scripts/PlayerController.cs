@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.EventSystems;
-using System;
 
 public class PlayerController : NetworkBehaviour{
-    public Color[] array = {Color.yellow, Color.grey, Color.red, Color.green };
+    public Color[] colors = {Color.yellow, Color.grey, Color.red, Color.green };
 
     public float moveSpeed = 1f;
     public float currentAngle;
-    public float bulletTTL = 5.0f;
+    public float bulletTTL = 10.0f;
 
     private Joystick joystick;
     private ShootButton shootButton;
@@ -32,13 +31,7 @@ public class PlayerController : NetworkBehaviour{
         joystick = FindObjectOfType<Joystick>();
         shootButton = FindObjectOfType<ShootButton>();
         currentAngle = 0;
-        SpriteRenderer x = GetComponent<SpriteRenderer>();
-        if (x == null){
-            print("error didn't find the sprite component");
-        }
-        print(array[0].ToString());
-        //x.material.color = array[(int.Parse(netId.ToString()) - 1)%array.Length];
-        x.material.color = Color.blue;
+        CmdSetPlayerColor();
     }
 
 
@@ -52,11 +45,9 @@ public class PlayerController : NetworkBehaviour{
 
         if (shootButton.Pressed&& !shootButton.fired)
         {
-            Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
-            GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
-           
-            Destroy(myBullet, bulletTTL);
+            CmdFire();
             shootButton.fired = true;
+
         }
         else if (!shootButton.Pressed && shootButton.fired)
         {
@@ -106,5 +97,29 @@ public class PlayerController : NetworkBehaviour{
             //joystick.Direction.x*100;
         movement *= moveSpeed;
         this.transform.position += movement;
+    }
+    [Command]
+    void CmdFire()
+    {
+        Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
+        GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
+        NetworkServer.Spawn(myBullet);
+        Destroy(myBullet, bulletTTL);
+    }
+    [Command]
+    void CmdSetPlayerColor()
+    {
+        RpcUpdatePlayerColor();
+    }
+    [ClientRpc]
+    void RpcUpdatePlayerColor()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < players.Length; i++)
+        {
+            SpriteRenderer sprite = players[i].GetComponent<SpriteRenderer>();
+            int id = int.Parse(players[i].GetComponent<NetworkIdentity>().netId.ToString());
+            sprite.material.color = colors[(id - 1) % colors.Length];
+        }
     }
 }

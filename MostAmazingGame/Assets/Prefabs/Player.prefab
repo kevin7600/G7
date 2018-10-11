@@ -101,6 +101,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f1b2d8d00c4f540a02036ba5fa1e51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  array:
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
   moveSpeed: 0.08
   currentAngle: 0
   bulletTTL: 5
