@@ -24,14 +24,16 @@ public class PlayerController : NetworkBehaviour{
 
     public override void OnStartLocalPlayer()
     {
-        if (isLocalPlayer) {
 
-        }
-        print("Here!");
         joystick = FindObjectOfType<Joystick>();
         shootButton = FindObjectOfType<ShootButton>();
         currentAngle = 0;
-        CmdSetPlayerColor();
+        
+        CmdSetPlayerColor();//sync player colors across network
+
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        CameraScript cameraScript = camera.GetComponent<CameraScript>();
+        cameraScript.SetPlayer(this.gameObject);
     }
 
 
