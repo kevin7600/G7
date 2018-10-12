@@ -44,5 +44,18 @@ public class bulletScript : MonoBehaviour {
             collision.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
         }
+
+        // hit player to reduce health
+        if (collision.gameObject.tag == "Player") {
+            var hit = collision.gameObject;
+            var health = hit.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(10);
+            }
+
+            Destroy(gameObject);
+        }
+
     }
 }

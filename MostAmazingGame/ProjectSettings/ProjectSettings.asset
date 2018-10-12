@@ -711,9 +711,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: f349e1f4-70fb-4fb8-b805-c9094e86f962
-  projectName: MostAmazingGame
-  organizationId: kevin-tan
+  cloudProjectId: 2848e8b4-64a7-4782-8b60-84bd7dcb486b
+  projectName: MostAmazingGame (1)
+  organizationId: mengzhuoyou
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
