@@ -6,13 +6,19 @@ using System.Collections;
 public class Health : NetworkBehaviour
 {
 
-    public const int maxHealth = 100;
+    public int maxHealth = 100;
 
     [SyncVar(hook = "OnChangeHealth")]
-    public int currentHealth = maxHealth;
+    public int currentHealth;
 
     public RectTransform healthBar;
 
+    void Start()
+    {
+        print("health location:  " + healthBar.position);
+        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+        currentHealth = maxHealth;
+    }
     public void TakeDamage(int amount)
     {
         if (!isServer)
@@ -24,22 +30,41 @@ public class Health : NetworkBehaviour
             currentHealth = maxHealth;
 
             // called on the Server, but invoked on the Clients
-            RpcRespawn();
+            CmdDeath();
         }
     }
 
     void OnChangeHealth(int currentHealth)
     {
-        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+        healthBar.sizeDelta = new Vector2(((float)currentHealth/(float)maxHealth)*100, healthBar.sizeDelta.y);
+    }
+
+    [Command]
+    void CmdDeath()
+    {
+        RpcDeath();
     }
 
     [ClientRpc]
-    void RpcRespawn()
+    void RpcDeath()
     {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.black;
         if (isLocalPlayer)
         {
-            // move back to zero location
-            transform.position = Vector3.zero;
+            StartCoroutine(DeathFunction());
         }
     }
+    public IEnumerator DeathFunction()
+    {
+        gameObject.GetComponent<PlayerController>().enabled = false;
+        yield return new WaitForSeconds(3f);
+        
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        CameraScript cameraScript = camera.GetComponent<CameraScript>();
+        cameraScript.enabled = false;
+        camera.transform.position = new Vector3(0, 0, camera.transform.position.z);
+        camera.GetComponent<Camera>().fieldOfView = 120;
+
+    }
+
 }

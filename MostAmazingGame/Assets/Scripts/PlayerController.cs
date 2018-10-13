@@ -8,13 +8,14 @@ public class PlayerController : NetworkBehaviour{
     public Color[] colors = {Color.yellow, Color.grey, Color.red, Color.green };
 
     public float moveSpeed = 1f;
-    public float currentAngle;
-    public float bulletTTL = 10.0f;
+    private float currentAngle;
 
     private Joystick joystick;
     private ShootButton shootButton;
 
     public GameObject bullet;
+    public int magazineCapacity = 2;
+    public int magazineCount;
 	// Use this for initialization
 	//void Start () {
     //    joystick = FindObjectOfType<Joystick>();
@@ -24,7 +25,7 @@ public class PlayerController : NetworkBehaviour{
 
     public override void OnStartLocalPlayer()
     {
-
+        magazineCount = magazineCapacity;
         joystick = FindObjectOfType<Joystick>();
         shootButton = FindObjectOfType<ShootButton>();
         currentAngle = 0;
@@ -47,15 +48,27 @@ public class PlayerController : NetworkBehaviour{
 
         if (shootButton.Pressed&& !shootButton.fired)
         {
-            CmdFire();
-            shootButton.fired = true;
-
+            if (magazineCount > 0)//so you can't spam the shoot button
+            {
+                CmdFire();
+                shootButton.fired = true;
+                magazineCount--;
+                if (magazineCount <= 0)
+                {
+                    StartCoroutine(RechargeBullet());
+                }
+            }
         }
         else if (!shootButton.Pressed && shootButton.fired)
         {
             shootButton.fired = false;
         }
 	}
+    public IEnumerator RechargeBullet()
+    {
+        yield return new WaitForSeconds(3f);
+        magazineCount=magazineCapacity;
+    }
     void FixedUpdate()
     {
         if (!isLocalPlayer)
@@ -68,7 +81,8 @@ public class PlayerController : NetworkBehaviour{
         //Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0);
 
         Vector3 movement = new Vector3(joystick.Horizontal, joystick.Vertical, 0);
-
+        movement.Normalize();
+        movement *= moveSpeed;
         float angleDeg;
         if (joystick.Horizontal == 0 && joystick.Vertical>0)
         {
@@ -100,13 +114,14 @@ public class PlayerController : NetworkBehaviour{
         movement *= moveSpeed;
         this.transform.position += movement;
     }
+
     [Command]
     void CmdFire()
     {
-        Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0));
+        Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0))*(gameObject.GetComponent<BoxCollider2D>().size.x/(float)3.2);
         GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
         NetworkServer.Spawn(myBullet);
-        Destroy(myBullet, bulletTTL);
+        Destroy(myBullet, myBullet.GetComponent<bulletScript>().bulletTTL);
     }
     [Command]
     void CmdSetPlayerColor()
