@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 2
-  m_SendInterval: 0.033333335
+  m_SendInterval: 1
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_VelocityThreshold: 0.001
   m_SnapThreshold: 0.001
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0
 --- !u!114 &114506237974746532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,9 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c1337df9af2544580bdac9dc2a5092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 14
+  bulletSpeed: 16
   bulletTTL: 4
-  canHitPlayer: 0
 --- !u!212 &212154009354186062
 SpriteRenderer:
   m_ObjectHideFlags: 1

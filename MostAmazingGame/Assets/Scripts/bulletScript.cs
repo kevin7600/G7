@@ -6,8 +6,6 @@ public class bulletScript : MonoBehaviour {
     private Rigidbody2D rb;
     public float bulletSpeed=100;
     public float bulletTTL = 4.0f;
-    public bool canHitPlayer = false;
-    public GameObject bulletOwner;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody2D>();
@@ -18,10 +16,6 @@ public class bulletScript : MonoBehaviour {
     public IEnumerator bulletTimer()
     {
         yield return new WaitForSeconds(.6f);
-        canHitPlayer = true;
-    }
-    // Update is called once per frame
-    void Update () {
     }
 
     //private void OnTriggerEnter2D(Collider2D other)
@@ -47,18 +41,12 @@ public class bulletScript : MonoBehaviour {
         if (collision.gameObject.tag == "box")
         {
             //reflect
-            collision.gameObject.SetActive(false);
-            this.gameObject.SetActive(false);
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
 
         // hit player to reduce health
         if (collision.gameObject.tag == "Player") {
-            if (bulletOwner.Equals(collision.gameObject)) {
-                if (!canHitPlayer)
-                {
-                    return;
-                }
-            }
             var hit = collision.gameObject;
             var health = hit.GetComponent<Health>();
             if (health != null)

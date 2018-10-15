@@ -62,7 +62,6 @@ GameObject:
   - component: {fileID: 114729053527237876}
   - component: {fileID: 212790264683438454}
   - component: {fileID: 114912118995535726}
-  - component: {fileID: 114901415904342124}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -258,7 +257,7 @@ MonoBehaviour:
     i14: 131
     i15: 0
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114714094663197356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -296,26 +295,11 @@ MonoBehaviour:
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!114 &114901415904342124
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1621126773714262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 118d8d961c484ba45996bf971c847654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  magazineCapacity: 3
-  magazineCount: 3
-  magazineBar: {fileID: 0}
-  test: 0
+  m_MovementTheshold: 0
+  m_VelocityThreshold: 0
+  m_SnapThreshold: 1000
+  m_InterpolateRotation: 0
+  m_InterpolateMovement: 0.5
 --- !u!114 &114912118995535726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,10 +329,12 @@ MonoBehaviour:
   - {r: 0.5, g: 0.5, b: 0.5, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
-  moveSpeed: 0.4
-  bullet: {fileID: 1291127619573162, guid: 82685cedc4b7d754ebbb54904bf06adc, type: 2}
-  magazineCapacity: 3
+  defaultMagazineCapacity: 3
+  currentMagazineCapacity: 2
   magazineCount: 3
+  defaultMoveSpeed: 10
+  currentMoveSpeed: 0
+  bullet: {fileID: 1291127619573162, guid: 82685cedc4b7d754ebbb54904bf06adc, type: 2}
 --- !u!212 &212790264683438454
 SpriteRenderer:
   m_ObjectHideFlags: 1

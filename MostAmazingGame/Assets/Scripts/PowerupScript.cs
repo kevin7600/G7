@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerupScript : MonoBehaviour {
-    private string[] powerupTypes = { "Magazine", "Speed" };
+    //private readonly string[] powerupTypes = { "Magazine", "Speed" };
     public string powerupType;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
@@ -25,19 +17,29 @@ public class PowerupScript : MonoBehaviour {
             //}
             if (powerupType == "Magazine")
             {
+                DePowerUp(ref playerController);
                 playerController.currentMagazineCapacity *= 2;
-                playerController.currentMoveSpeed = playerController.moveSpeed;
+                playerController.magazineCount = playerController.currentMagazineCapacity;
             }
             else if (powerupType == "Speed")
             {
-                playerController.currentMoveSpeed *= (float)1.2;
-                playerController.currentMagazineCapacity = playerController.magazineCapacity;
+                DePowerUp(ref playerController);
+                playerController.currentMoveSpeed *= (float)1.5;
             }
 
             //StartCoroutine(PowerupDuration(other.gameObject));
-            playerController.SetHasPowerup(true);
-            this.gameObject.SetActive(false);
+            Destroy(gameObject);
         }
+    }
+    private void DePowerUp(ref PlayerController playerController)
+    {
+        playerController.currentMagazineCapacity = playerController.defaultMagazineCapacity;
+        if (playerController.magazineCount > playerController.currentMagazineCapacity)
+        {
+            playerController.magazineCount = playerController.currentMagazineCapacity;
+        }
+        playerController.currentMoveSpeed = playerController.defaultMoveSpeed;
+
     }
     //public IEnumerator PowerupDuration(GameObject playerObject)
     //{

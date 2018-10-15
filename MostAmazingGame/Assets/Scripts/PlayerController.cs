@@ -7,37 +7,26 @@ using UnityEngine.EventSystems;
 public class PlayerController : NetworkBehaviour{
     public Color[] colors = {Color.yellow, Color.grey, Color.red, Color.green };
 
-    public float moveSpeed = .4f;
+    public int defaultMagazineCapacity = 3;
+    [HideInInspector]
+    public int currentMagazineCapacity;
+    public int magazineCount;
+
+    public float defaultMoveSpeed = 10f;
     public float currentMoveSpeed;
+
     private float currentAngle;
 
     private Joystick joystick;
     private ShootButton shootButton;
-
     public GameObject bullet;
-    public int magazineCapacity = 2;
-    public int currentMagazineCapacity;
-    public int magazineCount;
-    private bool hasPowerup = false;
-	// Use this for initialization
-	//void Start () {
-    //    joystick = FindObjectOfType<Joystick>();
-    //    shootButton = FindObjectOfType<ShootButton>();
-    //    currentAngle = 0;
-    //}
-    public bool GetHasPowerup()
-    {
-        return hasPowerup;
-    }
-    public void SetHasPowerup(bool setPowerup)
-    {
-        hasPowerup = setPowerup;
-    }
+   
+
     public override void OnStartLocalPlayer()
     {
-        currentMoveSpeed = moveSpeed;
-        currentMagazineCapacity = magazineCapacity;
-        magazineCount = magazineCapacity;
+        currentMoveSpeed = defaultMoveSpeed;
+        currentMagazineCapacity = defaultMagazineCapacity;
+        magazineCount = defaultMagazineCapacity;
         joystick = FindObjectOfType<Joystick>();
         shootButton = FindObjectOfType<ShootButton>();
         currentAngle = 0;
@@ -48,34 +37,6 @@ public class PlayerController : NetworkBehaviour{
         CameraScript cameraScript = camera.GetComponent<CameraScript>();
         cameraScript.SetPlayer(this.gameObject);
     }
-
-
-    // Update is called once per frame
-    void Update () {
-        //print("Id: "+netId);
-        if(!isLocalPlayer)
-        {
-            return;
-        }
-
-        if (shootButton.Pressed&& !shootButton.fired)
-        {
-            if (magazineCount > 0)//so you can't spam the shoot button
-            {
-                CmdFire();
-                shootButton.fired = true;
-                magazineCount--;
-                if (magazineCount <= 0)
-                {
-                    StartCoroutine(RechargeBullet());
-                }
-            }
-        }
-        else if (!shootButton.Pressed && shootButton.fired)
-        {
-            shootButton.fired = false;
-        }
-	}
     public IEnumerator RechargeBullet()
     {
         yield return new WaitForSeconds(3f);
@@ -87,24 +48,25 @@ public class PlayerController : NetworkBehaviour{
         {
             return;
         }
+        Fire();
+        Move();
+    }
 
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-        //Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0);
-
-        Vector3 movement = new Vector3(joystick.Horizontal, joystick.Vertical, 0);
+    void Move()
+    {
+        Vector2 movement = new Vector3(joystick.Horizontal, joystick.Vertical);
         movement.Normalize();
         movement *= currentMoveSpeed;
         float angleDeg;
-        if (joystick.Horizontal == 0 && joystick.Vertical>0)
+        if (joystick.Horizontal == 0 && joystick.Vertical > 0)
         {
             angleDeg = 90;
         }
-        else if (joystick.Horizontal==0 && joystick.Vertical < 0)
+        else if (joystick.Horizontal == 0 && joystick.Vertical < 0)
         {
             angleDeg = 270;
         }
-        else if (joystick.Horizontal==0 && joystick.Vertical == 0)
+        else if (joystick.Horizontal == 0 && joystick.Vertical == 0)
         {
             angleDeg = currentAngle;
         }
@@ -118,21 +80,41 @@ public class PlayerController : NetworkBehaviour{
                 angleDeg += 180;
             }
         }
-
-
-        transform.rotation = Quaternion.Euler(0, 0, angleDeg);
         currentAngle = angleDeg;
-            //joystick.Direction.x*100;
-        movement *= currentMoveSpeed;
-        this.transform.position += movement;
+        print(movement);
+        CmdMove(angleDeg,movement);
     }
 
+    [Command]
+    void CmdMove(float angleDeg, Vector2 movement)
+    {
+        print(movement);
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = movement;//for smoothness of client movement
+        //rb.position += movement;
+        rb.transform.rotation = Quaternion.Euler(0, 0, angleDeg);
+        
+    }
+    void Fire()
+    {
+        if (magazineCount > 0)//so you can't spam the shoot button
+        {
+            if (shootButton.AttemptFire())
+            {
+                CmdFire();
+                magazineCount--;
+                if (magazineCount <= 0)
+                {
+                    StartCoroutine(RechargeBullet());
+                }
+            }
+        }
+    }
     [Command]
     void CmdFire()
     {
         Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0))*(gameObject.GetComponent<BoxCollider2D>().size.x/(float)2.8);
         GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
-        myBullet.GetComponent<bulletScript>().bulletOwner = gameObject;
         
         NetworkServer.Spawn(myBullet);
         Destroy(myBullet, myBullet.GetComponent<bulletScript>().bulletTTL);

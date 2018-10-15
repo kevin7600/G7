@@ -5,15 +5,26 @@ using UnityEngine.EventSystems;
 
 public class ShootButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
-    public bool Pressed;
-    public bool fired;
+    private bool pressed;
+    private bool fired;
     public void OnPointerUp(PointerEventData eventData)
     {
-        Pressed = false;
+        fired = false;
+        pressed = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Pressed = true;
+        pressed = true;
+    }
+    public bool AttemptFire()//return true if can fire, assumes player fired, and makes player unable to fire until shoot button is released
+    {
+        if (pressed && !fired)
+        {
+            fired = true;
+            return true;
+        }
+        return false;
+
     }
 }
