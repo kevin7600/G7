@@ -31,12 +31,23 @@ public class PowerupScript : MonoBehaviour {
                 }
                 else if (powerupType == "Speed")
                 {
-                    playerController.moveSpeed *= (float)1.5;
+                    playerController.currentMoveSpeed *= (float)1.2;
                 }
 
             }
+            StartCoroutine(PowerupDuration(other.gameObject));
             playerController.SetHasPowerup(true);
             this.gameObject.SetActive(false);
         }
+    }
+    public IEnumerator PowerupDuration(GameObject playerObject)
+    {
+        yield return new WaitForSeconds(3f);
+        PlayerController playerController = playerObject.GetComponent<PlayerController>();
+        playerController.currentMoveSpeed = playerController.moveSpeed;
+        playerController.currentMagazineCapacity = playerController.magazineCapacity;
+
+
+
     }
 }

@@ -8,6 +8,7 @@ public class PlayerController : NetworkBehaviour{
     public Color[] colors = {Color.yellow, Color.grey, Color.red, Color.green };
 
     public float moveSpeed = 1f;
+    public float currentMoveSpeed;
     private float currentAngle;
 
     private Joystick joystick;
@@ -15,6 +16,7 @@ public class PlayerController : NetworkBehaviour{
 
     public GameObject bullet;
     public int magazineCapacity = 2;
+    public int currentMagazineCapacity;
     public int magazineCount;
     private bool hasPowerup = false;
 	// Use this for initialization
@@ -33,6 +35,8 @@ public class PlayerController : NetworkBehaviour{
     }
     public override void OnStartLocalPlayer()
     {
+        currentMoveSpeed = moveSpeed;
+        currentMagazineCapacity = magazineCapacity;
         magazineCount = magazineCapacity;
         joystick = FindObjectOfType<Joystick>();
         shootButton = FindObjectOfType<ShootButton>();
@@ -75,7 +79,7 @@ public class PlayerController : NetworkBehaviour{
     public IEnumerator RechargeBullet()
     {
         yield return new WaitForSeconds(3f);
-        magazineCount=magazineCapacity;
+        magazineCount=currentMagazineCapacity;
     }
     void FixedUpdate()
     {
@@ -90,7 +94,7 @@ public class PlayerController : NetworkBehaviour{
 
         Vector3 movement = new Vector3(joystick.Horizontal, joystick.Vertical, 0);
         movement.Normalize();
-        movement *= moveSpeed;
+        movement *= currentMoveSpeed;
         float angleDeg;
         if (joystick.Horizontal == 0 && joystick.Vertical>0)
         {
@@ -119,7 +123,7 @@ public class PlayerController : NetworkBehaviour{
         transform.rotation = Quaternion.Euler(0, 0, angleDeg);
         currentAngle = angleDeg;
             //joystick.Direction.x*100;
-        movement *= moveSpeed;
+        movement *= currentMoveSpeed;
         this.transform.position += movement;
     }
 
