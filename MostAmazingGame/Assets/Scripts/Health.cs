@@ -64,6 +64,7 @@ public class Health : NetworkBehaviour
         cameraScript.enabled = false;
         camera.transform.position = new Vector3(0, 0, camera.transform.position.z);
         camera.GetComponent<Camera>().fieldOfView = 83;
+        Destroy(gameObject);
 
     }
 

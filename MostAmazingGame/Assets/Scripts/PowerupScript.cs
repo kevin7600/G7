@@ -31,7 +31,7 @@ public class PowerupScript : MonoBehaviour {
                 }
                 else if (powerupType == "Speed")
                 {
-                    playerController.currentMoveSpeed *= (float)1.2;
+                    playerController.currentMoveSpeed *= (float)1.1;
                 }
 
             }

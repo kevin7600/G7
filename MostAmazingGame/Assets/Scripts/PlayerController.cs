@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class PlayerController : NetworkBehaviour{
     public Color[] colors = {Color.yellow, Color.grey, Color.red, Color.green };
 
-    public float moveSpeed = 1f;
+    public float moveSpeed = .4f;
     public float currentMoveSpeed;
     private float currentAngle;
 
