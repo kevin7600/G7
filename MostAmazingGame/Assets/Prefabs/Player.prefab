@@ -312,8 +312,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118d8d961c484ba45996bf971c847654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineCapacity: 2
-  magazineCount: 2
+  magazineCapacity: 3
+  magazineCount: 3
   magazineBar: {fileID: 0}
   test: 0
 --- !u!114 &114912118995535726
@@ -327,8 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9793fdca8a52a4ab0a906970363992a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
-  currentHealth: 30
+  maxHealth: 100
+  currentHealth: 100
 --- !u!114 &114987888801317294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,8 +347,8 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0, a: 1}
   moveSpeed: 0.4
   bullet: {fileID: 1291127619573162, guid: 82685cedc4b7d754ebbb54904bf06adc, type: 2}
-  magazineCapacity: 2
-  magazineCount: 0
+  magazineCapacity: 3
+  magazineCount: 3
 --- !u!212 &212790264683438454
 SpriteRenderer:
   m_ObjectHideFlags: 1

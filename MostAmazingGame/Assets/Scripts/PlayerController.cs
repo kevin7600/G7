@@ -16,13 +16,21 @@ public class PlayerController : NetworkBehaviour{
     public GameObject bullet;
     public int magazineCapacity = 2;
     public int magazineCount;
+    private bool hasPowerup = false;
 	// Use this for initialization
 	//void Start () {
     //    joystick = FindObjectOfType<Joystick>();
     //    shootButton = FindObjectOfType<ShootButton>();
     //    currentAngle = 0;
     //}
-
+    public bool GetHasPowerup()
+    {
+        return hasPowerup;
+    }
+    public void SetHasPowerup(bool setPowerup)
+    {
+        hasPowerup = setPowerup;
+    }
     public override void OnStartLocalPlayer()
     {
         magazineCount = magazineCapacity;
