@@ -23,31 +23,28 @@ public class PowerupScript : MonoBehaviour {
             {
                 return;
             }
-            for (int i = 0; i < powerupTypes.Length; i++)
+            if (powerupType == "Magazine")
             {
-                if (powerupType == "Magazine")
-                {
-                    playerController.magazineCapacity *= 2;
-                }
-                else if (powerupType == "Speed")
-                {
-                    playerController.currentMoveSpeed *= (float)1.1;
-                }
-
+                playerController.currentMagazineCapacity *= 2;
             }
-            StartCoroutine(PowerupDuration(other.gameObject));
+            else if (powerupType == "Speed")
+            {
+                playerController.currentMoveSpeed *= (float)1.2;
+            }
+
+            //StartCoroutine(PowerupDuration(other.gameObject));
             playerController.SetHasPowerup(true);
             this.gameObject.SetActive(false);
         }
     }
-    public IEnumerator PowerupDuration(GameObject playerObject)
-    {
-        yield return new WaitForSeconds(3f);
-        PlayerController playerController = playerObject.GetComponent<PlayerController>();
-        playerController.currentMoveSpeed = playerController.moveSpeed;
-        playerController.currentMagazineCapacity = playerController.magazineCapacity;
+    //public IEnumerator PowerupDuration(GameObject playerObject)
+    //{
+    //    yield return new WaitForSeconds(3f);
+    //    PlayerController playerController = playerObject.GetComponent<PlayerController>();
+    //    playerController.currentMoveSpeed = playerController.moveSpeed;
+    //    playerController.currentMagazineCapacity = playerController.magazineCapacity;
 
 
 
-    }
+    //}
 }
