@@ -130,8 +130,10 @@ public class PlayerController : NetworkBehaviour{
     [Command]
     void CmdFire()
     {
-        Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0))*(gameObject.GetComponent<BoxCollider2D>().size.x/(float)3.2);
+        Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0))*(gameObject.GetComponent<BoxCollider2D>().size.x/(float)2.8);
         GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
+        myBullet.GetComponent<bulletScript>().bulletOwner = gameObject;
+        
         NetworkServer.Spawn(myBullet);
         Destroy(myBullet, myBullet.GetComponent<bulletScript>().bulletTTL);
     }
