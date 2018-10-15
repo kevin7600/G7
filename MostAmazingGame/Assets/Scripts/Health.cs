@@ -11,12 +11,12 @@ public class Health : NetworkBehaviour
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth;
 
-    public RectTransform healthBar;
+    //public RectTransform healthBar;
 
     void Start()
     {
-        print("health location:  " + healthBar.position);
-        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+        //print("health location:  " + healthBar.position);
+        //healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
         currentHealth = maxHealth;
     }
     public void TakeDamage(int amount)
@@ -36,7 +36,7 @@ public class Health : NetworkBehaviour
 
     void OnChangeHealth(int currentHealth)
     {
-        healthBar.sizeDelta = new Vector2(((float)currentHealth/(float)maxHealth)*100, healthBar.sizeDelta.y);
+        //healthBar.sizeDelta = new Vector2(((float)currentHealth/(float)maxHealth)*100, healthBar.sizeDelta.y);
     }
 
     [Command]
@@ -63,7 +63,7 @@ public class Health : NetworkBehaviour
         CameraScript cameraScript = camera.GetComponent<CameraScript>();
         cameraScript.enabled = false;
         camera.transform.position = new Vector3(0, 0, camera.transform.position.z);
-        camera.GetComponent<Camera>().fieldOfView = 120;
+        camera.GetComponent<Camera>().fieldOfView = 83;
 
     }
 
