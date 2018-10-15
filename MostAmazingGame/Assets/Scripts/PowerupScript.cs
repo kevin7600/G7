@@ -19,17 +19,19 @@ public class PowerupScript : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
-            if (playerController.GetHasPowerup())//already has a powerup
-            {
-                return;
-            }
+            //if (playerController.GetHasPowerup())//already has a powerup
+            //{
+            //    return;
+            //}
             if (powerupType == "Magazine")
             {
                 playerController.currentMagazineCapacity *= 2;
+                playerController.currentMoveSpeed = playerController.moveSpeed;
             }
             else if (powerupType == "Speed")
             {
                 playerController.currentMoveSpeed *= (float)1.2;
+                playerController.currentMagazineCapacity = playerController.magazineCapacity;
             }
 
             //StartCoroutine(PowerupDuration(other.gameObject));
