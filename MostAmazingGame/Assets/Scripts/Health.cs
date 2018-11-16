@@ -6,18 +6,53 @@ using System.Collections;
 public class Health : NetworkBehaviour
 {
 
+    public const int maxHealth = 100;
+
+    [SyncVar(hook = "OnChangeHealth")]
+    public int currentHealth = maxHealth;
+    public RectTransform healthBar;
+
+    void Start(){
+        currentHealth = maxHealth;
+        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (!isServer)
+            return;
+
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Debug.Log("Dead!");
+        }
+    }
+
+    void OnChangeHealth(int health)
+    {
+        healthBar.sizeDelta = new Vector2(health, healthBar.sizeDelta.y);
+        print("health:  " + health);
+    }
+}
+/*
+public class Health : NetworkBehaviour
+{
+
     public int maxHealth = 100;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth;
 
-    //public RectTransform healthBar;
+    public RectTransform healthBar;
 
     void Start()
     {
-        //print("health location:  " + healthBar.position);
-        //healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+        print("health location:  " + healthBar.position);
+        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
         currentHealth = maxHealth;
+        print("currentHealth:  " + currentHealth);
     }
     public void TakeDamage(int amount)
     {
@@ -36,7 +71,7 @@ public class Health : NetworkBehaviour
 
     void OnChangeHealth(int currentHealth)
     {
-        //healthBar.sizeDelta = new Vector2(((float)currentHealth/(float)maxHealth)*100, healthBar.sizeDelta.y);
+        healthBar.sizeDelta = new Vector2(((float)currentHealth/(float)maxHealth)*100, healthBar.sizeDelta.y);
     }
 
     [Command]
@@ -68,4 +103,4 @@ public class Health : NetworkBehaviour
 
     }
 
-}
+}*/

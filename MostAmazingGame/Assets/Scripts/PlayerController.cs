@@ -81,14 +81,14 @@ public class PlayerController : NetworkBehaviour{
             }
         }
         currentAngle = angleDeg;
-        print(movement);
+        //print(movement);
         CmdMove(angleDeg,movement);
     }
 
     [Command]
     void CmdMove(float angleDeg, Vector2 movement)
     {
-        print(movement);
+        //print(movement);
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.velocity = movement;//for smoothness of client movement
         //rb.position += movement;
