@@ -27,6 +27,8 @@ public class Health : NetworkBehaviour
         {
             currentHealth = 0;
             Debug.Log("Dead!");
+            // called on the Server, but invoked on the Clients
+            CmdDeath();
         }
     }
 
@@ -34,6 +36,35 @@ public class Health : NetworkBehaviour
     {
         healthBar.sizeDelta = new Vector2(health, healthBar.sizeDelta.y);
         print("health:  " + health);
+    }
+
+    [Command]
+    void CmdDeath()
+    {
+        RpcDeath();
+    }
+
+    [ClientRpc]
+    void RpcDeath()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+        if (isLocalPlayer)
+        {
+            StartCoroutine(DeathFunction());
+        }
+    }
+    public IEnumerator DeathFunction()
+    {
+        gameObject.GetComponent<PlayerController>().enabled = false;
+        yield return new WaitForSeconds(3f);
+
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        CameraScript cameraScript = camera.GetComponent<CameraScript>();
+        cameraScript.enabled = false;
+        camera.transform.position = new Vector3(0, 18, camera.transform.position.z);
+        camera.GetComponent<Camera>().orthographicSize = 33;
+        Destroy(gameObject);
+
     }
 }
 /*
