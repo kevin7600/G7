@@ -9,6 +9,7 @@ public class Health : NetworkBehaviour
     public const int maxHealth = 100;
     public const int mWidth = 100;
     public const int OffSetY = 2;
+    public const int OffSetY2 = 3;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth = maxHealth;
@@ -22,12 +23,12 @@ public class Health : NetworkBehaviour
     private void Update()
     {
         UpdateLocation();
-        //UpdateHP();
     }
 
     public void UpdateLocation()
     {
         Transform mTransform = gameObject.transform;
+        //update HealthBar Canvas
         healthBar.parent.parent.transform.position = new Vector3(mTransform.position.x, mTransform.position.y + OffSetY, -1);
     }
 
