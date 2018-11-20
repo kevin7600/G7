@@ -7,6 +7,8 @@ public class Health : NetworkBehaviour
 {
 
     public const int maxHealth = 100;
+    public const int mWidth = 100;
+    public const int OffSetY = 2;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth = maxHealth;
@@ -14,7 +16,19 @@ public class Health : NetworkBehaviour
 
     void Start(){
         currentHealth = maxHealth;
-        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+        healthBar.sizeDelta = new Vector2(mWidth, healthBar.sizeDelta.y);
+    }
+
+    private void Update()
+    {
+        UpdateLocation();
+        //UpdateHP();
+    }
+
+    public void UpdateLocation()
+    {
+        Transform mTransform = gameObject.transform;
+        healthBar.parent.parent.transform.position = new Vector3(mTransform.position.x, mTransform.position.y + OffSetY, -1);
     }
 
     public void TakeDamage(int amount)
@@ -34,7 +48,7 @@ public class Health : NetworkBehaviour
 
     void OnChangeHealth(int health)
     {
-        healthBar.sizeDelta = new Vector2(health, healthBar.sizeDelta.y);
+        healthBar.sizeDelta = new Vector2(((float)health / (float)maxHealth) * mWidth, healthBar.sizeDelta.y);
         print("health:  " + health);
     }
 
