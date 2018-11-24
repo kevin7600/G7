@@ -56,7 +56,7 @@ public class bulletScript : MonoBehaviour {
 
             Destroy(gameObject);
         }
-        rb.velocity = Vector2.Reflect(lastVelocity, collision.contacts[0].normal);
+        if(rb!=null) rb.velocity = Vector2.Reflect(lastVelocity, collision.contacts[0].normal);
 
     }
 }
