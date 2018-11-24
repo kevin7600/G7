@@ -98,7 +98,8 @@ public class PlayerController : NetworkBehaviour{
     }
     void Fire()
     {
-        if (magazineCount > 0 || this.GetComponent<Magic>().curSlots>10)//so you can't spam the shoot button
+        int timeSlot = 10 * defaultMagazineCapacity / currentMagazineCapacity;
+        if (magazineCount > 0 || this.GetComponent<Magic>().curSlots > timeSlot)//so you can't spam the shoot button
         {
             if (shootButton.AttemptFire())
             {
@@ -117,8 +118,9 @@ public class PlayerController : NetworkBehaviour{
     {
         Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0))*(gameObject.GetComponent<BoxCollider2D>().size.x/(float)2.8);
         GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
-        this.GetComponent<Magic>().curSlots -= 10;
-        magazineCount = this.GetComponent<Magic>().curSlots / 10;
+        int timeSlot = 10 * defaultMagazineCapacity / currentMagazineCapacity;
+        this.GetComponent<Magic>().curSlots -= timeSlot;
+        magazineCount = this.GetComponent<Magic>().curSlots / timeSlot;
 
         NetworkServer.Spawn(myBullet);
         Destroy(myBullet, myBullet.GetComponent<bulletScript>().bulletTTL);
