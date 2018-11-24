@@ -40802,6 +40802,8 @@ MonoBehaviour:
   m_AddCollider: 1
   m_EdgeCollider2D: {fileID: 0}
   m_Camera: {fileID: 0}
+  drawCount: 5
+  canDraw: 1
 --- !u!4 &2018956004
 Transform:
   m_ObjectHideFlags: 0

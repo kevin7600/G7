@@ -16,7 +16,7 @@ public class DrawLine2D : MonoBehaviour
     protected List<Vector2> m_Points;
 
     private Joystick joystick;
-    public int drawCount = 4;
+    public int drawCount = 5;
     public bool canDraw = true;
 
     public virtual LineRenderer lineRenderer
@@ -76,6 +76,7 @@ public class DrawLine2D : MonoBehaviour
         shootButton = FindObjectOfType<ShootButton>();
         if (Input.GetMouseButtonDown(0) && !(System.Math.Abs(joystick.Horizontal) > 0.0 && System.Math.Abs(joystick.Vertical) > 0.0))
         {
+            if (shootButton.AttemptFire()) drawCount++;
             Reset();
         }
         if (System.Math.Abs(joystick.Horizontal) > 0.0 && System.Math.Abs(joystick.Vertical) > 0.0) {
