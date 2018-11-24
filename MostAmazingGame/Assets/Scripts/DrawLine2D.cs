@@ -15,6 +15,10 @@ public class DrawLine2D : MonoBehaviour
     protected Camera m_Camera;
     protected List<Vector2> m_Points;
 
+    private Joystick joystick;
+    public int drawCount = 4;
+    public bool canDraw = true;
+
     public virtual LineRenderer lineRenderer
     {
         get
@@ -46,7 +50,7 @@ public class DrawLine2D : MonoBehaviour
             return m_Points;
         }
     }
-    private Joystick joystick;
+
     protected virtual void Awake()
     {
         joystick =  FindObjectOfType<Joystick>();
@@ -79,23 +83,8 @@ public class DrawLine2D : MonoBehaviour
         } /*else if (shootButton.AttemptFire()) {
             Debug.Log("attemp fire");
         }*/ else {
-            if (Input.GetMouseButton(0))
-            {
-                Vector2 mousePosition = m_Camera.ScreenToWorldPoint(Input.mousePosition);
-                if (!m_Points.Contains(mousePosition))
-                {
-                    m_Points.Add(mousePosition);
-                    m_LineRenderer.positionCount = m_Points.Count;
-                    m_LineRenderer.SetPosition(m_LineRenderer.positionCount - 1, mousePosition);
-                    if (m_EdgeCollider2D != null && m_AddCollider && m_Points.Count > 1)
-                    {
-                        m_EdgeCollider2D.points = m_Points.ToArray();
-                    }
-                }
-            }
-
-            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-                || Input.GetMouseButton(0))
+            if (canDraw && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+                            || Input.GetMouseButton(0)))
             {
                 Vector2 mousePosition = m_Camera.ScreenToWorldPoint(Input.mousePosition);
                 if (!m_Points.Contains(mousePosition))
@@ -110,8 +99,6 @@ public class DrawLine2D : MonoBehaviour
                 }
             }
         }
-
-       
     }
 
     protected virtual void Reset()
@@ -129,7 +116,10 @@ public class DrawLine2D : MonoBehaviour
             m_EdgeCollider2D.Reset();
             Debug.Log("reset check");
         }
-
+        if (--drawCount < 0) {
+            canDraw = false;
+        }
+        Debug.Log(drawCount);
     }
 
     protected virtual void CreateDefaultLineRenderer()
