@@ -98,16 +98,16 @@ public class PlayerController : NetworkBehaviour{
     }
     void Fire()
     {
-        if (magazineCount > 0)//so you can't spam the shoot button
+        if (magazineCount > 0 || this.GetComponent<Magic>().curSlots>10)//so you can't spam the shoot button
         {
             if (shootButton.AttemptFire())
             {
                 CmdFire();
                 magazineCount--;
-                if (magazineCount <= 0)
+                /*if (magazineCount <= 0)
                 {
                     StartCoroutine(RechargeBullet());
-                }
+                }*/
             }
         }
     }
@@ -118,6 +118,7 @@ public class PlayerController : NetworkBehaviour{
         Vector3 gunPosition = transform.position + (transform.rotation * new Vector3(1, 0, 0))*(gameObject.GetComponent<BoxCollider2D>().size.x/(float)2.8);
         GameObject myBullet = Instantiate(bullet, gunPosition, transform.rotation);
         this.GetComponent<Magic>().curSlots -= 10;
+        magazineCount = this.GetComponent<Magic>().curSlots / 10;
 
         NetworkServer.Spawn(myBullet);
         Destroy(myBullet, myBullet.GetComponent<bulletScript>().bulletTTL);
