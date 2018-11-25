@@ -70,6 +70,13 @@ public class DrawLine2D : MonoBehaviour
         }
         m_Points = new List<Vector2>();
     }
+
+    public IEnumerator EmptyLine()
+    {
+        yield return new WaitForSeconds(2f);
+        Reset();
+    }
+
     private ShootButton shootButton;
     protected virtual void Update()
     {
@@ -78,6 +85,22 @@ public class DrawLine2D : MonoBehaviour
         {
             //if (shootButton.AttemptFire()) drawCount++;
             Reset();
+        }
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase ==  TouchPhase.Ended || Input.GetMouseButtonUp(0)) && !(System.Math.Abs(joystick.Horizontal) > 0.0 && System.Math.Abs(joystick.Vertical) > 0.0))
+        {
+            //if (shootButton.AttemptFire()) drawCount++;
+            if (m_Points.Count >= 5)
+            {
+                StartCoroutine(EmptyLine());
+
+            }
+
+            print("UP:"+m_Points.Count);
+            if (m_Points.Count >= 5 && --drawCount < 0)
+            {
+                canDraw = false;
+            }
+
         }
         if (System.Math.Abs(joystick.Horizontal) > 0.0 && System.Math.Abs(joystick.Vertical) > 0.0) {
             Debug.Log("joy stick pressed");
@@ -108,6 +131,7 @@ public class DrawLine2D : MonoBehaviour
         {
             m_LineRenderer.positionCount = 0;
         }
+        print(m_Points.Count);
         if (m_Points != null)
         {
             m_Points.Clear();
@@ -117,9 +141,11 @@ public class DrawLine2D : MonoBehaviour
             m_EdgeCollider2D.Reset();
             Debug.Log("reset check");
         }
-        if (--drawCount < 0) {
+
+        /*if (--drawCount < 0) {
             canDraw = false;
-        }
+        }*/
+
         Debug.Log(drawCount);
     }
 
